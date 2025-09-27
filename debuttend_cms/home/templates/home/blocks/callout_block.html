@@ -1,0 +1,7 @@
+<div class="rounded-lg bg-indigo-50 p-8 text-indigo-900">
+  <h3 class="text-2xl font-semibold">{{ self.title }}</h3>
+  <p class="mt-3 text-lg text-indigo-700">{{ self.body }}</p>
+  {% if self.button_text and self.button_link %}
+    <a href="{{ self.button_link }}" class="mt-6 inline-flex rounded bg-indigo-600 px-4 py-2 text-white">{{ self.button_text }}</a>
+  {% endif %}
+</div>
