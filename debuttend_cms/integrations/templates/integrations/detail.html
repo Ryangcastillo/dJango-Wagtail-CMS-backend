@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}{{ integration.name }} | Integrations | Debuttend CMS{% endblock %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-16">
+  <a href="{% url 'integrations:list' %}" class="text-sm text-blue-600">← Back to integrations</a>
+  <header class="mt-4 flex items-center justify-between">
+    <div>
+      <h1 class="text-3xl font-bold">{{ integration.name }}</h1>
+      <p class="text-gray-600">{{ integration.description }}</p>
+    </div>
+    <span class="rounded-full px-4 py-1 text-sm font-semibold {% if integration.is_active %}bg-green-100 text-green-700{% else %}bg-red-100 text-red-700{% endif %}">{{ integration.is_active|yesno:"Active,Inactive" }}</span>
+  </header>
+
+  <div class="mt-8 grid gap-6 md:grid-cols-2">
+    <section class="rounded border border-gray-200 bg-white p-6 shadow">
+      <h2 class="text-xl font-semibold">Connection Details</h2>
+      <dl class="mt-4 space-y-2 text-gray-700">
+        <div>
+          <dt class="font-medium">API Base URL</dt>
+          <dd><code>{{ integration.api_base_url }}</code></dd>
+        </div>
+        <div>
+          <dt class="font-medium">Credential Key</dt>
+          <dd>{% if integration.credential_key %}<code>{{ integration.credential_key }}</code>{% else %}<span class="text-gray-500">Not configured</span>{% endif %}</dd>
+        </div>
+        <div>
+          <dt class="font-medium">Last Synced</dt>
+          <dd>{% if integration.last_synced_at %}{{ integration.last_synced_at|naturaltime }}{% else %}<span class="text-gray-500">Never</span>{% endif %}</dd>
+        </div>
+      </dl>
+    </section>
+    <section class="rounded border border-gray-200 bg-white p-6 shadow">
+      <h2 class="text-xl font-semibold">Recent Activity</h2>
+      <ul class="mt-4 space-y-3">
+        {% for log in integration.logs.all %}
+          <li class="rounded border border-gray-100 bg-gray-50 p-3">
+            <p class="text-sm text-gray-500">{{ log.created_at|naturaltime }}</p>
+            <p class="font-medium text-gray-800">{{ log.get_status_display }}</p>
+            <p class="text-gray-600">{{ log.message }}</p>
+          </li>
+        {% empty %}
+          <li class="text-gray-500">No activity recorded yet.</li>
+        {% endfor %}
+      </ul>
+    </section>
+  </div>
+</section>
+{% endblock %}

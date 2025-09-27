@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<section class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-semibold mb-4">Search</h1>
+  <form method="get" action="" class="mb-6 flex gap-2">
+    <input type="search" name="query" value="{{ query }}" placeholder="Search content" class="flex-1 rounded border px-3 py-2" />
+    <button type="submit" class="rounded bg-blue-600 px-4 py-2 font-medium text-white">Search</button>
+  </form>
+
+  {% if query %}
+    <p class="mb-4 text-sm text-gray-600">Showing {{ results_page.paginator.count }} results for <strong>{{ query }}</strong>.</p>
+    <div class="space-y-4">
+      {% for result in results_page %}
+        <article class="rounded border p-4 shadow-sm">
+          <h2 class="text-xl font-bold"><a href="{{ result.url }}">{{ result.title }}</a></h2>
+          {% if result.search_description %}
+            <p class="text-gray-600">{{ result.search_description }}</p>
+          {% endif %}
+        </article>
+      {% empty %}
+        <p>No results found.</p>
+      {% endfor %}
+    </div>
+
+    <nav class="mt-6 flex items-center justify-between" aria-label="Pagination">
+      {% if results_page.has_previous %}
+        <a href="?query={{ query }}&page={{ results_page.previous_page_number }}" class="text-blue-600">Previous</a>
+      {% else %}
+        <span class="text-gray-400">Previous</span>
+      {% endif %}
+      <span>Page {{ results_page.number }} of {{ results_page.paginator.num_pages }}</span>
+      {% if results_page.has_next %}
+        <a href="?query={{ query }}&page={{ results_page.next_page_number }}" class="text-blue-600">Next</a>
+      {% else %}
+        <span class="text-gray-400">Next</span>
+      {% endif %}
+    </nav>
+  {% elif query == '' %}
+    <p class="text-gray-500">Enter a search term to explore your content library.</p>
+  {% endif %}
+</section>
+{% endblock %}
