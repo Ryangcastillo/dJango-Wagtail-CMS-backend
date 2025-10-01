@@ -9,17 +9,17 @@ from django.urls import path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.documents import urls as wagtaildocs_urls
-from wagtail.api import API
+from wagtail.api.v2.router import WagtailAPIRouter
 from wagtail.api.v2.views import PagesAPIViewSet
 
-api = API(api_name="v2")
-api.register(PagesAPIViewSet)
+api_router = WagtailAPIRouter('wagtailapi')
+api_router.register_endpoint('pages', PagesAPIViewSet)
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
     path("cms/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
-    path("api/", api.urls),
+    path("api/v2/", api_router.urls),
     path("search/", include("search.urls")),
     path("integrations/", include("integrations.urls")),
     path("analytics/", include("analytics.urls")),
