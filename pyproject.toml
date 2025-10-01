@@ -1,0 +1,37 @@
+[tool.ruff]
+# Exclude a variety of commonly ignored directories
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "migrations",
+    "static",
+    "media",
+]
+
+line-length = 120
+indent-width = 4
+
+# Assume Python 3.10+
+target-version = "py310"
+
+[tool.ruff.lint]
+# Enable pycodestyle (E, W), Pyflakes (F), isort (I), and Django (DJ) rules
+select = ["E", "F", "I", "DJ", "W"]
+ignore = [
+    "E501",  # Line too long (handled by formatter)
+    "DJ001", # Avoid using null=True on string-based fields
+]
+
+# Allow fix for all enabled rules (when `--fix` is provided)
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.isort]
+known-first-party = ["debuttend_cms", "home", "search", "dashboard", "integrations", "analytics"]
