@@ -11,7 +11,6 @@ media/
 
 # Docker
 *.log
-.dockerignore
 
 # Coverage reports
 htmlcov/
