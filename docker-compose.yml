@@ -17,9 +17,15 @@ services:
 
   web:
     build: .
-    command: python debuttend_cms/manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./debuttend_cms:/app/debuttend_cms
+      - ./home:/app/home
+      - ./search:/app/search
+      - ./analytics:/app/analytics
+      - ./dashboard:/app/dashboard
+      - ./integrations:/app/integrations
+      - ./templates:/app/templates
       - ./manage.py:/app/manage.py
       - static_volume:/app/static
       - media_volume:/app/media
