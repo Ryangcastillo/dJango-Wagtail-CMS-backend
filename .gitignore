@@ -8,3 +8,20 @@ media/
 .DS_Store
 .idea/
 .vscode/
+
+# Docker
+*.log
+.dockerignore
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# pytest
+.pytest_cache/
+
+# Ruff
+.ruff_cache/

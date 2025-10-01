@@ -1,5 +1,7 @@
 # Debuttend CMS
 
+![CI](https://github.com/Ryangcastillo/dJango-Wagtail-CMS-backend/workflows/CI/badge.svg)
+
 Debuttend CMS is a modular, scalable content management system scaffold built with **Django** and **Wagtail**. The project emphasises a modern editorial experience, composable integrations, analytics, and a future-ready workflow that can support traditional, headless, or hybrid delivery models.
 
 ## Features
@@ -10,6 +12,8 @@ Debuttend CMS is a modular, scalable content management system scaffold built wi
 - **Dashboard landing page** that editors can customise directly from Wagtail using reusable widget snippets.
 - **REST API** powered by `wagtail.api` for headless or decoupled front-end integrations.
 - **Environment aware settings** with `.env` support and production-ready security toggles.
+- **CI/CD pipelines** with GitHub Actions and GitLab CI configurations for automated testing and deployment.
+- **Docker support** for containerized deployments with multi-stage builds and docker-compose for development.
 
 ## Project structure
 
@@ -100,12 +104,38 @@ debuttend_cms/
 
 The project enables `wagtail.api` and Django REST Framework by default. Content is available from `/api/v2/pages/`, providing a solid starting point for headless or decoupled front-end projects.
 
+## CI/CD & Deployment
+
+The project includes comprehensive CI/CD pipelines for automated testing and deployment:
+
+- **GitHub Actions** workflows for continuous integration and deployment
+- **GitLab CI** configuration as an alternative
+- **Docker** support with multi-stage builds for production
+- **docker-compose** for local development
+
+See [CI/CD Documentation](docs/CI_CD.md) for detailed setup instructions.
+
+### Quick Start with Docker
+
+```bash
+# Start all services
+docker-compose up -d
+
+# Run migrations
+docker-compose exec web python debuttend_cms/manage.py migrate
+
+# Create superuser
+docker-compose exec web python debuttend_cms/manage.py createsuperuser
+
+# Access at http://localhost:8000
+```
+
 ## Next steps
 
-- Configure CI/CD pipelines (GitHub Actions, GitLab CI, etc.) to automate testing and deployment.
 - Connect analytics to real data sources (Google Analytics, Plausible, etc.).
 - Extend integrations with custom logic or webhook handlers.
 - Implement advanced workflows like approval queues, content scheduling, and blue/green deployments.
+- Configure deployment secrets and choose your hosting platform (see [CI/CD docs](docs/CI_CD.md)).
 
 ---
 

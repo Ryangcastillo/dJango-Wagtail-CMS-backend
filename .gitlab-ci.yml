@@ -1,0 +1,114 @@
+stages:
+  - test
+  - lint
+  - security
+  - deploy
+
+variables:
+  POSTGRES_DB: debuttend_test
+  POSTGRES_USER: debuttend
+  POSTGRES_PASSWORD: debuttend
+  POSTGRES_HOST_AUTH_METHOD: trust
+  DJANGO_SETTINGS_MODULE: debuttend_cms.settings.dev
+  DJANGO_SECRET_KEY: test-secret-key-for-ci
+  DJANGO_DEBUG: "1"
+  DJANGO_DB_ENGINE: django.db.backends.postgresql
+  DJANGO_DB_NAME: debuttend_test
+  DJANGO_DB_USER: debuttend
+  DJANGO_DB_PASSWORD: debuttend
+  DJANGO_DB_HOST: postgres
+  DJANGO_DB_PORT: "5432"
+
+# Test job template
+.test_template: &test_template
+  stage: test
+  image: python:3.11
+  services:
+    - postgres:15
+  before_script:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+  script:
+    - cd debuttend_cms
+    - python manage.py check
+    - python manage.py makemigrations --check --dry-run --noinput
+    - python manage.py migrate --noinput
+    - python manage.py test --noinput --verbosity=2
+
+# Test with different Python versions
+test:python3.10:
+  <<: *test_template
+  image: python:3.10
+
+test:python3.11:
+  <<: *test_template
+  image: python:3.11
+
+test:python3.12:
+  <<: *test_template
+  image: python:3.12
+
+# Linting job
+lint:
+  stage: lint
+  image: python:3.11
+  before_script:
+    - pip install --upgrade pip
+    - pip install ruff
+  script:
+    - ruff check .
+    - ruff format --check .
+  allow_failure: true
+
+# Security checks
+security:
+  stage: security
+  image: python:3.11
+  before_script:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - pip install safety bandit[toml]
+  script:
+    - safety check --json || true
+    - bandit -r debuttend_cms/ -f json || true
+    - cd debuttend_cms && python manage.py check --deploy --fail-level WARNING
+  allow_failure: true
+
+# Deployment to staging
+deploy:staging:
+  stage: deploy
+  image: python:3.11
+  only:
+    - develop
+  environment:
+    name: staging
+    url: https://staging.example.com
+  before_script:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+  script:
+    - cd debuttend_cms
+    - python manage.py collectstatic --noinput
+    - echo "Deploy to staging environment"
+    # Add your staging deployment commands here
+  when: manual
+
+# Deployment to production
+deploy:production:
+  stage: deploy
+  image: python:3.11
+  only:
+    - main
+    - tags
+  environment:
+    name: production
+    url: https://www.example.com
+  before_script:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+  script:
+    - cd debuttend_cms
+    - python manage.py collectstatic --noinput
+    - echo "Deploy to production environment"
+    # Add your production deployment commands here
+  when: manual
