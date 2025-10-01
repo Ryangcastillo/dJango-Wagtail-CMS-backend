@@ -18,26 +18,25 @@ Debuttend CMS is a modular, scalable content management system scaffold built wi
 ## Project structure
 
 ```
-debuttend_cms/
-├── manage.py
-├── debuttend_cms/
-│   ├── debuttend_cms/
-│   │   ├── settings/
-│   │   │   ├── base.py
-│   │   │   ├── dev.py
-│   │   │   └── prod.py
-│   │   ├── __init__.py
-│   │   ├── asgi.py
-│   │   ├── urls.py
-│   │   └── wsgi.py
-│   ├── home/
-│   │   ├── models.py
-│   │   └── templates/
-│   ├── search/
-│   ├── integrations/
-│   ├── analytics/
-│   └── dashboard/
-└── requirements.txt
+project_root/
+├── manage.py            # Django management script
+├── debuttend_cms/       # Django project settings
+│   ├── settings/
+│   │   ├── base.py      # Shared settings
+│   │   ├── dev.py       # Development settings
+│   │   └── prod.py      # Production settings
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── urls.py          # URL configuration
+│   └── wsgi.py          # WSGI configuration
+├── home/                # Main content app
+│   ├── models.py
+│   └── templates/
+├── search/              # Search functionality
+├── integrations/        # External integrations
+├── analytics/           # Analytics dashboard
+├── dashboard/           # Dashboard app
+└── templates/           # Global templates
 ```
 
 ## Getting started
@@ -122,10 +121,10 @@ See [CI/CD Documentation](docs/CI_CD.md) for detailed setup instructions.
 docker-compose up -d
 
 # Run migrations
-docker-compose exec web python debuttend_cms/manage.py migrate
+docker-compose exec web python manage.py migrate
 
 # Create superuser
-docker-compose exec web python debuttend_cms/manage.py createsuperuser
+docker-compose exec web python manage.py createsuperuser
 
 # Access at http://localhost:8000
 ```

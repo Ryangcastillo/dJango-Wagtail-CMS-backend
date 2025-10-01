@@ -48,6 +48,12 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy application code
 COPY debuttend_cms/ ./debuttend_cms/
+COPY home/ ./home/
+COPY search/ ./search/
+COPY analytics/ ./analytics/
+COPY dashboard/ ./dashboard/
+COPY integrations/ ./integrations/
+COPY templates/ ./templates/
 COPY manage.py .
 
 # Create directories for static and media files
@@ -58,7 +64,7 @@ RUN mkdir -p /app/static /app/media && \
 USER django
 
 # Collect static files
-RUN cd debuttend_cms && python manage.py collectstatic --noinput || true
+RUN python manage.py collectstatic --noinput || true
 
 # Expose port
 EXPOSE 8000
@@ -68,4 +74,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/').read()" || exit 1
 
 # Run gunicorn
-CMD ["gunicorn", "--chdir", "debuttend_cms", "--bind", "0.0.0.0:8000", "--workers", "3", "debuttend_cms.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "3", "debuttend_cms.wsgi:application"]

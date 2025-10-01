@@ -43,7 +43,6 @@ cp .env.example .env
 Make sure PostgreSQL is running, then:
 
 ```bash
-cd debuttend_cms
 python manage.py migrate
 python manage.py createsuperuser
 ```
@@ -77,8 +76,8 @@ docker compose up -d
 ### 3. Run migrations and create superuser
 
 ```bash
-docker compose exec web python debuttend_cms/manage.py migrate
-docker compose exec web python debuttend_cms/manage.py createsuperuser
+docker compose exec web python manage.py migrate
+docker compose exec web python manage.py createsuperuser
 ```
 
 ### 4. Access the application
@@ -123,11 +122,10 @@ docker compose down
 
 ```bash
 # Local
-cd debuttend_cms
 python manage.py test
 
 # Docker
-docker compose exec web python debuttend_cms/manage.py test
+docker compose exec web python manage.py test
 ```
 
 ### Code Linting and Formatting
@@ -150,22 +148,20 @@ ruff check --fix .
 
 ```bash
 # Local
-cd debuttend_cms
 python manage.py makemigrations
 
 # Docker
-docker compose exec web python debuttend_cms/manage.py makemigrations
+docker compose exec web python manage.py makemigrations
 ```
 
 ### Collecting Static Files
 
 ```bash
 # Local
-cd debuttend_cms
 python manage.py collectstatic
 
 # Docker
-docker compose exec web python debuttend_cms/manage.py collectstatic
+docker compose exec web python manage.py collectstatic
 ```
 
 ## CI/CD Setup
@@ -235,7 +231,6 @@ See `.github/workflows/deploy.yml` for configuration examples.
 
 ```bash
 # Reset database (CAUTION: This will delete all data)
-cd debuttend_cms
 python manage.py flush
 python manage.py migrate
 ```
@@ -243,7 +238,6 @@ python manage.py migrate
 ### Static Files Not Loading
 
 ```bash
-cd debuttend_cms
 python manage.py collectstatic --clear --noinput
 ```
 
