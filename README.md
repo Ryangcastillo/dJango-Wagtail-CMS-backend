@@ -46,6 +46,11 @@ debuttend_cms/
    pip install -r requirements.txt
    ```
 
+   For development (includes testing tools):
+   ```bash
+   pip install -e ".[dev]"
+   ```
+
 2. **Configure environment variables**
 
    Create a `.env` file at the repository root and add your credentials:
@@ -99,6 +104,50 @@ debuttend_cms/
 ## API & headless readiness
 
 The project enables `wagtail.api` and Django REST Framework by default. Content is available from `/api/v2/pages/`, providing a solid starting point for headless or decoupled front-end projects.
+
+## Testing
+
+This project uses pytest for testing. To run tests:
+
+```bash
+# Run all tests
+pytest
+
+# Run tests with coverage
+pytest --cov=debuttend_cms
+
+# Run tests for a specific app
+pytest tests/test_home.py
+
+# Run tests with verbose output
+pytest -v
+```
+
+### Test Structure
+
+Tests are organized in the `tests/` directory:
+- `test_manage.py` - Tests for manage.py (Django management commands)
+- `test_settings.py` - Tests for Django settings configuration
+- `test_home.py` - Tests for the home/content app
+- `test_analytics.py` - Tests for the analytics app
+- `test_dashboard.py` - Tests for the dashboard app
+- `test_integrations.py` - Tests for the integrations app
+- `test_search.py` - Tests for the search app
+
+### Code Quality
+
+The project includes tools for maintaining code quality:
+
+```bash
+# Format code with black
+black debuttend_cms/
+
+# Lint code with ruff
+ruff check debuttend_cms/
+
+# Type checking with mypy
+mypy debuttend_cms/
+```
 
 ## Next steps
 
