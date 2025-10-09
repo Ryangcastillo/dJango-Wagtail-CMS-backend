@@ -64,7 +64,7 @@ RUN mkdir -p /app/static /app/media && \
 USER django
 
 # Collect static files
-RUN python manage.py collectstatic --noinput || true
+RUN python manage.py collectstatic --noinput
 
 # Expose port
 EXPOSE 8000
