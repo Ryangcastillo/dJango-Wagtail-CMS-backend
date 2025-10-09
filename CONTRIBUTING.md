@@ -53,7 +53,6 @@ ruff check --fix .
 Run tests before submitting your PR:
 
 ```bash
-cd debuttend_cms
 python manage.py test
 ```
 
@@ -182,8 +181,9 @@ class MyPage(Page):
 ## Project Structure
 
 ```
-debuttend_cms/
-├── debuttend_cms/        # Project settings
+project_root/
+├── manage.py            # Django management script
+├── debuttend_cms/       # Django project settings
 │   ├── settings/
 │   │   ├── base.py      # Shared settings
 │   │   ├── dev.py       # Development settings
@@ -194,7 +194,8 @@ debuttend_cms/
 ├── search/              # Search functionality
 ├── integrations/        # External integrations
 ├── analytics/           # Analytics dashboard
-└── dashboard/           # Dashboard app
+├── dashboard/           # Dashboard app
+└── templates/           # Global templates
 ```
 
 ## Testing Guidelines
@@ -232,7 +233,6 @@ class HomePageTestCase(TestCase):
 
 ```bash
 # Run all tests
-cd debuttend_cms
 python manage.py test
 
 # Run tests for a specific app

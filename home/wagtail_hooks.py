@@ -1,9 +1,9 @@
 """Custom Wagtail hooks for the Debuttend CMS."""
 from __future__ import annotations
 
+from django.urls import reverse
 from wagtail import hooks
 from wagtail.admin.menu import MenuItem
-from django.urls import reverse
 
 
 @hooks.register("register_admin_menu_item")

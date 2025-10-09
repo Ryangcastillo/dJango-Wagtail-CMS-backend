@@ -29,7 +29,6 @@ variables:
     - pip install --upgrade pip
     - pip install -r requirements.txt
   script:
-    - cd debuttend_cms
     - python manage.py check
     - python manage.py makemigrations --check --dry-run --noinput
     - python manage.py migrate --noinput

@@ -56,9 +56,7 @@ jobs:
           DJANGO_DB_PASSWORD: debuttend
           DJANGO_DB_HOST: localhost
           DJANGO_DB_PORT: 5432
-        run: |
-          cd debuttend_cms
-          python manage.py check
+        run: python manage.py check
       
       - name: Check for missing migrations
         env:
@@ -71,9 +69,7 @@ jobs:
           DJANGO_DB_PASSWORD: debuttend
           DJANGO_DB_HOST: localhost
           DJANGO_DB_PORT: 5432
-        run: |
-          cd debuttend_cms
-          python manage.py makemigrations --check --dry-run --noinput
+        run: python manage.py makemigrations --check --dry-run --noinput
       
       - name: Run migrations
         env:
@@ -86,9 +82,7 @@ jobs:
           DJANGO_DB_PASSWORD: debuttend
           DJANGO_DB_HOST: localhost
           DJANGO_DB_PORT: 5432
-        run: |
-          cd debuttend_cms
-          python manage.py migrate --noinput
+        run: python manage.py migrate --noinput
       
       - name: Run Django tests
         env:
@@ -101,9 +95,7 @@ jobs:
           DJANGO_DB_PASSWORD: debuttend
           DJANGO_DB_HOST: localhost
           DJANGO_DB_PORT: 5432
-        run: |
-          cd debuttend_cms
-          python manage.py test --noinput --verbosity=2
+        run: python manage.py test --noinput --verbosity=2
 
   lint:
     name: Lint and Code Quality
@@ -157,7 +149,7 @@ jobs:
         continue-on-error: true
       
       - name: Run bandit (security linter)
-        run: bandit -r debuttend_cms/ -f json
+        run: bandit -r . -f json --exclude ./venv,./tests
         continue-on-error: true
       
       - name: Django security check
@@ -171,6 +163,4 @@ jobs:
           DJANGO_DB_PASSWORD: debuttend
           DJANGO_DB_HOST: localhost
           DJANGO_DB_PORT: 5432
-        run: |
-          cd debuttend_cms
-          python manage.py check --deploy --fail-level WARNING
+        run: python manage.py check --deploy --fail-level WARNING

@@ -3,15 +3,15 @@ from __future__ import annotations
 
 from django.db import models
 from modelcluster.fields import ParentalKey
-from modelcluster.models import ClusterableModel, Orderable
+from modelcluster.models import ClusterableModel
+from wagtail import blocks
 from wagtail.admin.panels import FieldPanel, InlinePanel, ObjectList, TabbedInterface
 from wagtail.fields import RichTextField, StreamField
 from wagtail.images.blocks import ImageChooserBlock
-from wagtail.models import Page, TranslatableMixin
-from wagtail.snippets.models import register_snippet
-from wagtail import blocks
-from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtail.models import Orderable, Page, TranslatableMixin
 from wagtail.search import index
+from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtail.snippets.models import register_snippet
 
 
 class SEOFieldsMixin(models.Model):
@@ -232,6 +232,7 @@ class Integration(TranslatableMixin, ClusterableModel):
     class Meta:
         verbose_name = "Integration"
         verbose_name_plural = "Integrations"
+        unique_together = [('translation_key', 'locale')]
 
     def __str__(self) -> str:  # pragma: no cover
         return self.name
